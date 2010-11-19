@@ -10,7 +10,6 @@ API
 ---
 
 ### Initialise DOM elements specified by the passed selectors
-
 <code>
     $("video").video({"swf":"swf/video.swf"});
 </code>
@@ -19,17 +18,16 @@ Optional arguments:
 swf (type: String, default: video.swf) Path to the video swf. 
 video (type: String, default: video.m4v) Video to play if the src attribute is unavailable. 
 params (type: Object) Flash params
-	height (type: String, default: 100%)
-	width (type: String, default: 100%)
-	menu (type: String, default: false)
-	allowscriptaccess (type: String, default: always)
-	wmode (type: String, default: transparent)
-	quality (type: String, default: high)
+height (type: String, default: 100%)
+width (type: String, default: 100%)
+menu (type: String, default: false)
+allowscriptaccess (type: String, default: always)
+wmode (type: String, default: transparent)
+quality (type: String, default: high)
 
 ### Bind to video state change event
 
-<code>
-    $("#videoPlayer").bind("stateChange", stateChangeHandler);
+<code>$("#videoPlayer").bind("stateChange", stateChangeHandler);
     stateChangeHandler = function(event)
     {
 	log("state : " + event.state);
