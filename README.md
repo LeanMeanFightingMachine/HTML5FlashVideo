@@ -27,7 +27,7 @@ quality (type: String, default: high)
 
 ### Bind to video state change event
 
-<code>$("#videoPlayer").bind("stateChange", stateChangeHandler);
+<code>    $("#videoPlayer").bind("stateChange", stateChangeHandler);
     stateChangeHandler = function(event)
     {
 	log("state : " + event.state);
