@@ -1,0 +1,128 @@
+html, body {
+	height: 100%;
+	width: 100%;
+	margin: 0px;
+	padding:0px;
+	overflow: hidden;
+	background: #000000;
+}
+
+body {
+	display: none;
+}
+
+video {
+	width: 100%;
+	height: 100%;
+}
+
+#content {
+	height: 100%;
+	width: 100%;
+}
+
+#progress {
+	width: 100%;
+	height: 5px;
+	position: absolute;
+	left: 0px;
+	bottom: 0px;
+	background: rgb(255, 255, 255);
+   	background: rgba(255, 255, 255, 0.3);
+}
+
+#loading {
+	width: 0%;
+	height: 100%;
+	position: absolute;
+	background: rgb(31, 31, 31);
+   	background: rgba(31, 31, 31, 0.7);
+}
+
+#playing {
+	width: 0%;
+	height: 100%;
+	position: absolute;
+	background: rgb(252, 255, 0);
+}
+
+#controls {
+	position: absolute;
+	left: 0px;
+	bottom: 50px;
+	width: 100%;
+	display: none;
+}
+
+#panel {
+	width: 193px;
+	height: 78px;
+	background: rgb(31, 31, 31);
+   	background: rgba(31, 31, 31, 0.7);
+ 	margin: auto;
+ 	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+}
+
+#panel span {
+	display: none;	
+}
+
+#buttons {
+	position: absolute;	
+}
+
+#backwardButton {
+	width: 25px;
+	height: 28px;
+	background-image: url(../img/backward-button.png);
+	position: absolute;
+	top: 25px;
+	left: 25px;
+}
+
+#playButton {
+	width: 25px;
+	height: 28px;
+	background-image: url(../img/play-button.png);
+	position: absolute;
+	top: 25px;
+	left: 65px;
+}
+
+#pauseButton {
+	width: 25px;
+	height: 28px;
+	background-image: url(../img/pause-button.png);
+	position: absolute;
+	top: 25px;
+	left: 65px;
+	visibility: hidden;
+}
+
+#stopButton {
+	width: 28px;
+	height: 28px;
+	background-image: url(../img/stop-button.png);
+	position: absolute;
+	top: 25px;
+	left: 100px;
+}
+
+#forwardButton {
+	width: 25px;
+	height: 28px;
+	background-image: url(../img/forward-button.png);
+	position: absolute;
+	top: 25px;
+	left: 143px;
+}
+
+#buttons a {
+	background-repeat: no-repeat;
+	background-position: 0px 0px;	
+}
+
+#buttons.active a:hover {
+	background-position: 0px -28px;
+}

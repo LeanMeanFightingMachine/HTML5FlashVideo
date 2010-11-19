@@ -1,0 +1,194 @@
+<!doctype html> 
+<html>
+	<head>
+		<title>HTML5FlashVideo</title>
+		<link rel="stylesheet" href="css/example.css" type="text/css" />
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+	</head>
+	<body>
+		
+		<div id="content">
+			<video id="videoPlayer" width="100%" height="100%" src="videos/video.mp4" preload poster="img/poster.jpg"></video>
+		</div>
+		
+		<div id="controls">
+			<div id="panel">
+				<div id="buttons">
+					<a href="#" id="backwardButton"><span>Backward</span></a>
+					<a href="#" id="playButton"><span>Play</span></a>
+					<a href="#" id="pauseButton"><span>Pause</span></a>
+					<a href="#" id="stopButton"><span>Stop</span></a>
+					<a href="#" id="forwardButton"><span>Forward</span></a>
+				</div>
+			</div>
+		</div>
+		
+		<div id="progress">
+			<div id="loading"></div>
+			<div id="playing"></div>
+		</div>
+		
+		<script src="js/jquery.js"></script>
+		<script src="js/jquery.video.js"></script>
+		<script src="js/jquery.swfobject.js"></script>
+		<script src="js/jquery.timers.js"></script>
+		<script src="js/flashjavascriptbridge.js"></script>
+		
+		<script>
+			$(document).ready(function(){init();});
+	
+			var _readied = false;
+
+			init = function()
+  			{
+				$("body").fadeTo(200, 1);
+				
+		  		$("video").video({"swf":"swf/video.swf"});
+		  		$("#videoPlayer").bind("stateChange", stateChangeHandler);
+		  		$("#videoPlayer").bind("videoProgress", progressHandler);
+
+				var s = $("#videoPlayer").video("getState");
+				
+		  		if(s == "waiting")
+		  		{
+		  			$("#buttons").fadeTo(0, 0.3);
+		  		}
+		  		else if(s == "playing")
+		  		{
+		  			$("#playButton").css("visibility","hidden");
+		  			$("#pauseButton").css("visibility","visible");
+		  			ready();
+		  		}
+		  		else
+		  		{
+		  			ready();
+		  		}
+		  		
+				var t;
+				var f = false;
+				var op = false;
+				$("body").mousemove( function(event) { 
+					if(!f)
+					{
+						f = true;
+						$("#controls").stop();
+						$("#controls").fadeTo(500,1);
+						clearTimeout(t);
+
+						if(!op)
+						{
+							t = setTimeout (function(){
+								$("#controls").fadeTo(500,0);
+								f = false;
+							}, 5000);
+						}
+					}
+				} );
+				
+				$("body").mouseout( function(event) { 
+					$("#controls").stop();
+					$("#controls").fadeTo(500,0);
+					clearTimeout(t);
+					f = false;
+				} );
+
+				$("#panel").mouseover( function(event) {
+					clearTimeout(t);
+					op = true;
+				} );
+
+				$("#panel").mouseout( function(event) {
+					op = false;
+				} );
+				
+		  	};
+
+		  	ready = function()
+		  	{
+				if(!_readied)
+				{
+			  		$("#playButton").click(playButtonHandler);
+					$("#pauseButton").click(pauseButtonHandler);
+					$("#stopButton").click(stopButtonHandler);
+					$("#forwardButton").mousedown(forwardButtonDownHandler);
+					$("#backwardButton").mousedown(backwardButtonDownHandler);
+	
+					$("#buttons").addClass("active");
+
+					_readied = true;
+				}
+		  	};
+		  	
+		  	stateChangeHandler = function(event)
+		  	{
+		  		log("stateChangeHandler " + event.state);
+		  		
+		  		if(event.state == "ready")
+		  		{
+		  			$("#buttons").fadeTo(200, 1);
+		  			ready();
+		  		}
+		  		else if(event.state == "playing")
+		  		{
+		  			$("#playButton").css("visibility","hidden");
+		  			$("#pauseButton").css("visibility","visible");
+		  		}
+		  		else if(event.state == "paused" || event.state == "ended")
+		  		{
+		  			$("#playButton").css("visibility","visible");
+		  			$("#pauseButton").css("visibility","hidden");
+		  		}
+		  	};
+
+		  	progressHandler = function(event)
+		  	{
+		  		var l = Math.round((event.loaded / event.duration) * 100);
+		  		var p = Math.round((event.currentTime / event.duration) * 100);
+
+		  		$("#loading").css("width",l + "%");
+		  		$("#playing").css("width",p + "%");
+		  	};
+		  	
+		  	playButtonHandler = function(event)
+		  	{
+		  		event.preventDefault();
+		  		$("#videoPlayer").video("play");
+		  	};
+		  	
+		  	pauseButtonHandler = function(event)
+		  	{
+		  		event.preventDefault();
+		  		$("#videoPlayer").video("pause");
+		  	};
+		  	
+		  	stopButtonHandler = function(event)
+		  	{
+		  		event.preventDefault();
+		  		$("#videoPlayer").video("stop");
+		  	};
+
+		  	forwardButtonDownHandler = function(event)
+		  	{
+		  		event.preventDefault();
+		  		$("body").bind("mouseup",scrubButtonUpHandler);
+		  		$("#videoPlayer").video("scrubStart",500);
+		  	};
+
+		  	backwardButtonDownHandler = function(event)
+		  	{
+		  		event.preventDefault();
+		  		$("body").bind("mouseup",scrubButtonUpHandler);
+		  		$("#videoPlayer").video("scrubStart",-500);
+		  	};
+
+		  	scrubButtonUpHandler = function(event)
+		  	{
+		  		event.preventDefault();
+		  		$("body").unbind("mouseup",scrubButtonUpHandler);
+		  		$("#videoPlayer").video("scrubStop");
+		  	};
+		  	
+		</script>
+	</body>
+</html>
+
