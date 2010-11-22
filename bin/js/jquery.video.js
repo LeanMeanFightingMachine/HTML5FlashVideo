@@ -154,7 +154,7 @@
 		});
 		
 		if($obj.is("video")) {
-	 		if(obj.canPlayType && obj.buffered && !obj.error)
+	 		if(obj.canPlayType && !obj.error)
 			{
 				setupHTML5(obj,$obj,settings);
 			}
@@ -273,6 +273,7 @@
 		obj.addEventListener("ended", endedHandler, false);
 		obj.addEventListener("playing", playingHandler, false);
 		obj.addEventListener("error", errorHandler, false);
+		obj.addEventListener("seeked", seekedHandler, false);
 		
 		if(navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPod/i))
 		{
@@ -303,6 +304,24 @@
 		$obj.everyTime(100, "progress", function() { html5ProgressHandler(this); });
 	};
 	
+	var seekedHandler = function(event) {
+		
+		var $obj = $(event.target);
+		var data = $obj.data('video');
+		
+		var loaded;
+		if(event.target.buffered)
+		{
+			loaded = event.target.buffered.length > 0 ? event.target.buffered.end(0) : 0;
+		}
+		else
+		{
+			loaded = event.target.duration;
+		}
+		
+		$obj.trigger({type:"videoProgress",currentTime:Math.floor(event.target.currentTime * 1000),duration:Math.floor(event.target.duration * 1000),loaded:Math.floor(loaded * 1000)});
+	};
+	
 	var endedHandler = function(event) {
 		
 		var $obj = $(event.target);
@@ -310,8 +329,9 @@
 		
 		if(data.playback == HTML5_PLAYBACK)
 		{
-			event.target.pause();
 			event.target.currentTime = 0;
+			event.target.pause();
+			log("event.target.currentTime " + event.target.currentTime);
 		}
 		
 		$obj.trigger({type:"stateChange",state:ENDED_STATE});
@@ -333,7 +353,15 @@
 		var $obj = $(obj);
 		var data = $obj.data('video');
 		
-		var loaded = obj.buffered.length > 0 ? obj.buffered.end(0) : 0;
+		var loaded;
+		if(obj.buffered)
+		{
+			loaded = obj.buffered.length > 0 ? obj.buffered.end(0) : 0;
+		}
+		else
+		{
+			loaded = obj.duration;
+		}
 		
 		$obj.trigger({type:"videoProgress",currentTime:Math.floor(obj.currentTime * 1000),duration:Math.floor(obj.duration * 1000),loaded:Math.floor(loaded * 1000)});
 		
@@ -349,16 +377,19 @@
 		var data = $obj.data('video');
 		
 		var time = obj.currentTime + (data.scrub / 1000);
+		var loaded;
+		if(obj.buffered)
+		{
+			loaded = obj.buffered.length > 0 ? obj.buffered.end(0) : 0;
+		}
+		else
+		{
+			loaded = obj.duration;
+		}
 		
-		if(obj.duration && time <= obj.buffered.end(0) && time >= 0)
+		if(obj.duration && time <= loaded && time >= 0)
 		{
 			obj.currentTime = time;
-			
-			var loaded = obj.buffered.length > 0 ? obj.buffered.end(0) : 0;
-			if(data.state != PLAYING_STATE && loaded == obj.duration)
-			{
-				$obj.trigger({type:"videoProgress",currentTime:Math.floor(time * 1000),duration:Math.floor(obj.duration * 1000),loaded:Math.floor(loaded * 1000)});
-			}
 		}
 	};
 	

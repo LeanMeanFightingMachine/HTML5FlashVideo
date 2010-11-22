@@ -19,10 +19,8 @@ Optional arguments:
  *  video (type: String, default: video.m4v) Video to play if the src attribute is unavailable.
  *  params (type: Object) Flash params
  
-Optional Flash params are:
+Optional params:
 
- *  height (type: String, default: 100%)
- *  width (type: String, default: 100%)
  *  menu (type: String, default: false)
  *  allowscriptaccess (type: String, default: always)
  *  wmode (type: String, default: transparent)
@@ -65,15 +63,13 @@ Optional Flash params are:
 
 ### Seek to percent of video duration (fraction of 1)
 
-    $("#videoPlayer").video("seekPercent", 0.5);
+	$("#videoPlayer").video("seekPercent", 0.5);
 
 ### Start scrubbing through the video
 
-Scrubs through the video at the increment defined (in milliseconds) every 100 milliseconds. Use a negative number to scrub backwards.
+Scrubs through the video at the increment defined (in milliseconds) every 100 milliseconds. Use a negative number to scrub backwards. This code scrubs through the video by 500 milliseconds at intervals of every 100 milliseconds.
 
-    $("#videoPlayer").video("scrubStart", 500);
-    
-This code scrubs through the video by 500 milliseconds at intervals of every 100 milliseconds.
+	$("#videoPlayer").video("scrubStart", 500);
 
 ### Stop scrubbing through the video
 
@@ -90,7 +86,7 @@ States:
  *  playing
  *  paused
 
-    $("#videoPlayer").video("getState");
+	$("#videoPlayer").video("getState");
 
 ### Get playback mode
 
@@ -100,4 +96,4 @@ Playback modes:
  *  flash
  *  no
 
-    $("#videoPlayer").video("getPlayback");
+	$("#videoPlayer").video("getPlayback");
