@@ -13,16 +13,20 @@ API
 
     $("video").video({"swf":"swf/video.swf"});
 
-**Optional arguments:**
- *	swf (type: String, default: video.swf) Path to the video swf. 
- *	video (type: String, default: video.m4v) Video to play if the src attribute is unavailable. 
- *	params (type: Object) Flash params:
-    *   height (type: String, default: 100%)
-    *   width (type: String, default: 100%)
-    *   menu (type: String, default: false)
-    *   allowscriptaccess (type: String, default: always)
-    *   wmode (type: String, default: transparent)
-    *   quality (type: String, default: high)
+Optional arguments:
+
+ *  swf (type: String, default: video.swf) Path to the video swf.
+ *  video (type: String, default: video.m4v) Video to play if the src attribute is unavailable.
+ *  params (type: Object) Flash params
+ 
+Optional Flash params are:
+
+ *  height (type: String, default: 100%)
+ *  width (type: String, default: 100%)
+ *  menu (type: String, default: false)
+ *  allowscriptaccess (type: String, default: always)
+ *  wmode (type: String, default: transparent)
+ *  quality (type: String, default: high)
 
 ### Bind to video state change event
 
@@ -63,18 +67,37 @@ API
 
     $("#videoPlayer").video("seekPercent", 0.5);
 
-### Scrub through the video at defined increment (in milliseconds) every 100 milliseconds. Use negative number for going backwards.
+### Start scrubbing through the video
+
+Scrubs through the video at the increment defined (in milliseconds) every 100 milliseconds. Use a negative number to scrub backwards.
 
     $("#videoPlayer").video("scrubStart", 500);
+    
+This code scrubs through the video by 500 milliseconds at intervals of every 100 milliseconds.
 
 ### Stop scrubbing through the video
 
     $("#videoPlayer").video("scrubStop");
 
-### Get video state (waiting,ready,ended,loading,playing,paused)
+### Get video state
+
+States:
+
+ *  waiting
+ *  ready
+ *  ended
+ *  loading
+ *  playing
+ *  paused
 
     $("#videoPlayer").video("getState");
 
-### Get playback mode (html5,flash,no)
+### Get playback mode
+
+Playback modes:
+
+ *  html5
+ *  flash
+ *  no
 
     $("#videoPlayer").video("getPlayback");
